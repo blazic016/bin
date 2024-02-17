@@ -140,7 +140,6 @@ skeleton_bilduj ()
     exit" # && burnuj
 }
 
-
 burnuj () 
 { 
     if [ "$CONF" == "ali_m3538_z4neo_sat_nand_SecDbg" ] || [ "$CONF" == "ali_m3538_z4neo_sat_nand_SecRel" ] || [ "$CONF" == "ali_m3538_z4neo_sat_nand_dev" ]; then
@@ -175,7 +174,6 @@ check_conf ()
         echo "\$config_dir=$config_dir";
     fi
 }
-
 
 teatro3_bilduj () {
     check_conf;
