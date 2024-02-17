@@ -1,0 +1,9 @@
+[alias]
+	st = status
+	ch = checkout
+	cm = commit
+	br = branch
+	lg = log --oneline --graph
+	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+[user]
+	email = Miroslav Blazic

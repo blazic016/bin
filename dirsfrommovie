@@ -1,0 +1,14 @@
+#!/bin/bash
+
+FILES=$(ls *{mkv,mp4})
+
+for f in $FILES
+do
+    file=$(echo $f)
+    dir=$(echo $f | rev | cut -c 5- | rev)
+    if [ -e $dir ]; then
+        echo "dir vec postoji."
+    fi
+    mkdir $dir && mv $file $dir -v
+done
+

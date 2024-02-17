@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Kada u c fajlu imporujemo lib: #include <gio/gio.h>
+# Tad koristim ovu skriptu za test (brzo) kompajliranje.
+
+OUTPUTDIR=/tmp
+FILEC="${1}"
+FILE=$(echo $FILEC | rev | cut -c 3- | rev)
+
+#gcc -Wall $FILEC -o $OUTPUTDIR/$FILE
+gcc -Wall -g $FILEC $(pkg-config --libs --cflags glib-2.0) -o $OUTPUTDIR/$FILE
+
+echo "-------------------"
+$OUTPUTDIR/$FILE
+rm -rf $OUTPUTDIR/$FILE
+

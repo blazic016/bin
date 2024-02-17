@@ -1,0 +1,4 @@
+#!/bin/bash
+
+file=${1%%.*}
+ffmpeg -i "${1}" -acodec libvorbis "$file.ogg"

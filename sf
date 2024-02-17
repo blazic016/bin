@@ -1,0 +1,28 @@
+#!/bin/bash
+
+export SFPROG="code"
+
+
+if [ $# == 1 ]; then
+	param=$1
+else
+	param=$(xclip -o)
+fi
+IFS=':' # hyphen (-) is set as delimiter
+read -ra part <<< "$param" # str is read into an array as tokens separated by IFS
+IFS=' '
+if [ -z ${part[0]} ]; then
+	exit
+fi
+
+
+case $SFPROG in
+geany)
+	
+	geany `realpath ${part[0]}` --line ${part[1]:-1}
+	;;
+code)
+	code -g "`realpath ${part[0]}`:${part[1]:-1}"
+	;;
+esac
+

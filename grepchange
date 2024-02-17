@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+import sys, os, argparse
+parser = argparse.ArgumentParser(description='change multiple files at once')
+parser.add_argument('input_file', help="input file" )
+parser.add_argument('--bkp', help="bkp", action='store_true')
+args = parser.parse_args()
+
+
+bkp = args.bkp
+with open(args.input_file, 'r') as f:
+	lines = f.readlines()
+fch = {}
+for l in lines:
+	if l == '\n' or l == '--\n': continue
+	sep = ':'
+	spl = l.split(sep)
+	if spl[0] not in fch:
+		if '-' in spl[0]: 
+			sep = '-'
+			spl = l.split(sep)
+		else:
+			fch[spl[0]] = []
+	fch[spl[0]].append( (int(spl[1]), sep.join(spl[2:])) )
+
+for _file, v in fch.items():
+	# print(_file,v)
+	try:
+		if not bkp:
+			print('reading file', _file)
+			
+		with open(_file, 'r') as f:
+			if not f: continue
+			lines = f.readlines()
+			
+		if bkp:
+			for l in v:
+				print(_file+':'+str(l[0])+':'+lines[l[0]-1],end='')
+		else:
+			has = 0
+			for l in v:
+				if lines[l[0]-1] != l[1]:
+					lines[l[0]-1] = l[1]
+					has = 1
+			with open(_file, 'w') as f:
+				if has:
+					print('changing file: ', _file)
+				f.writelines(lines)
+	except Exception as e:
+		if not bkp:
+			print(e)

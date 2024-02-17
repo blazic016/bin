@@ -1,0 +1,17 @@
+#!/bin/bash
+
+cpp=${1%.c}
+echo -e "\x1b[33mcompiling:\x1b[0m" $cpp
+g++ "$cpp.c" $2 -o "/tmp/$cpp" -pthread -O2
+
+if [ $? == 0 ]; then
+
+	echo -e "\x1b[33mrunning...\x1b[0m"
+	/tmp/"$cpp" ${@:2}
+	r=$?
+	if [ $r == 0 ]; then
+		echo -e "\x1b[32msuccess\x1b[0m"
+	else
+		echo -e "\x1b[31mfail" $r "\x1b[0m"
+	fi
+fi

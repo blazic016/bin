@@ -1,0 +1,10 @@
+#!/bin/bash
+
+file="$(basename $1)"
+if [ -z $2 ]; then
+		tar --xz -cf ~/backup/"$file-$(date '+%Y.%m.%d-%Hh%Mm%Ss').txz" "$file"
+else
+	
+		zip -r ~/backup/$file-$(date '+%Y.%m.%d-%Hh%Mm%Ss').zip "$file"
+if [ -z $2 ]; then
+
