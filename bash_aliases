@@ -365,7 +365,6 @@ defajnovi ()
 
 }
 
-
 f_ardproj () 
 { 
     arduino_project_name="${1}";
