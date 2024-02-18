@@ -240,7 +240,6 @@ comedia_bilduj_debug ()
     exit""" # && burnuj
 }
 
-
 comedia_bilduj_bis () 
 { 
     check_conf;
