@@ -78,6 +78,29 @@ alinocs_rebilduj ()
     exit"
 }
 
+nvdal_bilduj () 
+{ 
+    check_conf;
+    sudo rm -rf product/output_$CONF/buildroot_shadow/build/nv-dal-custom
+    docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c "
+    cd ~/product && . teatro3.sh $CONF && \
+    cd $teatro3_output/buildroot_shadow && \
+    make nv-dal && \
+    echo "Zavrsio $FUNCNAME"
+    exit"
+}
+
+nvdal_rebilduj () 
+{ 
+    check_conf;
+    docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c "
+    cd ~/product && . teatro3.sh $CONF && \
+    cd $teatro3_output/buildroot_shadow && \
+    make nv-dal-rebuild && \
+    echo "Zavrsio $FUNCNAME"
+    exit"
+}
+
 aliplatform_rebilduj () 
 { 
     check_conf;
