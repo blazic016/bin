@@ -21,6 +21,7 @@ alias lstar="tar -tvf $1"
 alias myip="curl 'https://api.ipify.org'"
 alias ccat="cat $1 | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g' "
 alias cls="clear"
+alias code="/usr/bin/code"
 # alias dockerexitall="docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm"
 # VAR="$(docker images | grep none  | awk '{ print $3 }')"
 # alias dockerremove_none_images="docker rmi $(docker images | grep none  | awk '{ print $3 }')"
@@ -77,6 +78,32 @@ alinocs_rebilduj ()
     echo "Zavrsio $FUNCNAME"
     exit"
 }
+
+# obrisi posle
+privremeno() {
+    pushd product/output_ali_m3538_z4ng_sat_nand_dev/buildroot_shadow/build
+        rm -rfv host-skeleton
+        rm -rfv skeleton
+        rm -rfv skeleton-custom
+        rm -rfv toolchain-external-codescape-mti-mips-2020.06-01 
+        rm -rfv toolchain-see-mips-2020.06-01
+        popd
+
+    pushd product/output_ali_m3538_z4ng_sat_nand_dev/buildroot_shadow/host
+        rm -rf mipsel-buildroot-linux-gnu
+        popd
+
+}
+
+
+klot_bilduj() {
+    docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c "
+    cd ~ && make alim3538p_ddk_c0200_multinand_defconfig && \
+    make all 2>&1 | tee klot.log
+    echo "Zavrsio $FUNCNAME"
+    exit"
+}
+
 
 nvdal_bilduj () 
 { 
@@ -246,20 +273,33 @@ secureapp_bilduj ()
     exit"""
 }
 
+
+burnuj_f6p () 
+{ 
+    if [ "$CONF" == "ali_m3538_z4ng_sat_nand_dev" ]; then
+        check_conf;
+        echo "CONF u redu."
+        IMAGES=$(pwd)/product/output_$CONF/buildroot_shadow/images
+        pushd $IMAGES
+            sudo ./linux_FT_Tool < /home/mblazic/builds/parameters_f6p 
+        popd 
+    else 
+        echo "CONF NIJE u redu!!!"
+    fi
+}
+
+# run rsync -av --exclude=".svn" --exclude=".empty" $config_dir/${CONF}_buildroot_skeleton/ $teatro3_output/buildroot_shadow/target/ && \
+# generate_materials && \
 comedia_bilduj_debug () 
 { 
     check_conf;
     sudo rm -rf product/output_$CONF/{comedia_shadow,chal_shadow,app_shadow,downloader_buildtree_shadow}
     docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c """
     cd ~/product && . teatro3.sh $CONF && \
-    run rsync -av --exclude=".svn" --exclude=".empty" $config_dir/${CONF}_buildroot_skeleton/ $teatro3_output/buildroot_shadow/target/ && \
     chal_build_debug && \
-    chalcak_build_debug && \
     comedia_build_debug && \
     app_build_debug && \
-    secure_app_build_debug && \
     ${_PLATFORM}_build_binaries && \
-    generate_materials && \
     exit""" # && burnuj
 }
 

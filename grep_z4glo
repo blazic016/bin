@@ -1,0 +1,15 @@
+>>> toolchain-external-codescape-mti-mips 2020.06-01 Copying external toolchain libraries to target...
+MIRO STAGING_DIR=/home/sdtv/product/output_ali_m3538_z4ng_sat_nand_dev/buildroot_shadow/host/mipsel-buildroot-linux-gnu/sysroot
+MIRO LIBPATTERN=ld*.so.*
+MIRO LIBPATHS=/home/sdtv/product/output_ali_m3538_z4ng_sat_nand_dev/buildroot_shadow/host/mipsel-buildroot-linux-gnu/sysroot/lib/ld.so.1
+/home/sdtv/product/output_ali_m3538_z4ng_sat_nand_dev/buildroot_shadow/host/mipsel-buildroot-linux-gnu/sysroot/etc/ld.so.conf.d
+MIRO LIBNAME=ld.so.1
+MIRO DESTDIR=lib
+MIRO if ulazi
+MIRO LIBNAME=ld-2.28.so
+MIRO DESTDIR=lib
+MIRO if else ulazi
+MIRO FINISH copy_toolchain_lib_root
+MIRO LIBNAME=ld.so.conf.d
+MIRO DESTDIR=etc
+MIRO else exit
