@@ -322,19 +322,19 @@ comedia_bilduj_bis ()
     exit""" #&& burnuj
 }
 
+# sdtvddriver_shadow
 sve_bilduj () 
 { 
     check_conf;
-    sudo rm -rf product/output_$CONF/{comedia_shadow,chal_shadow,app_shadow,sdtvddriver_shadow,downloader_buildtree_shadow}
+    sudo rm -rf product/output_$CONF/{comedia_shadow,chal_shadow,app_shadow,downloader_buildtree_shadow}
     docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c """
     cd ~/product && . teatro3.sh $CONF && \
     chal_build && \
-    sdtvdrivers_build && \
-    comedia_build && \
-    app_build && \
-    chalcak_build && \
-    secure_app_build && \
-    echo ${_PLATFORM}_build_binaries && \
+    comedia_build_debug && \
+    app_build_debug && \
+    chalcak_build_debug && \
+    secure_app_build_debug && \
+    ${_PLATFORM}_build_binaries && \
     echo generate_materials && \
     exit""" # && burnuj
 }
