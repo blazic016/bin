@@ -330,10 +330,10 @@ sve_bilduj ()
     docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c """
     cd ~/product && . teatro3.sh $CONF && \
     chal_build && \
-    comedia_build_debug && \
-    app_build_debug && \
-    chalcak_build_debug && \
-    secure_app_build_debug && \
+    comedia_build && \
+    app_build && \
+    chalcak_build && \
+    secure_app_build && \
     ${_PLATFORM}_build_binaries && \
     echo generate_materials && \
     exit""" # && burnuj
