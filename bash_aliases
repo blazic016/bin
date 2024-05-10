@@ -327,6 +327,7 @@ sve_bilduj ()
 { 
     check_conf;
     sudo rm -rf product/output_$CONF/{comedia_shadow,chal_shadow,app_shadow,downloader_buildtree_shadow}
+    cp -r product/platform/ali/config/$CONF/${CONF}_buildroot_skeleton/root/* product/output_$CONF/buildroot_shadow/target/root/
     docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c """
     cd ~/product && . teatro3.sh $CONF && \
     chal_build && \
@@ -343,6 +344,7 @@ sve_bilduj_debug ()
 { 
     check_conf;
     sudo rm -rf product/output_$CONF/{comedia_shadow,chal_shadow,app_shadow,downloader_buildtree_shadow}
+    cp -r product/platform/ali/config/$CONF/${CONF}_buildroot_skeleton/root/* product/output_$CONF/buildroot_shadow/target/root/
     docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c """
     cd ~/product && . teatro3.sh $CONF && \
     chal_build_debug 2>&1 | tee ~/product/output_$CONF/chal_build_debug.log && \
@@ -385,62 +387,62 @@ defajnovi ()
     docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c "cd ~/product && . teatro3.sh $CONF &&     run chal_build_debug 2>/dev/null | grep -Eo '\-D[[:alnum:]_=*]*' | sed -e 's/-D//' | sed -e 's/[[:alnum:]_=*]*/\"&\"/' > chal_defines.txt
     run comedia_build_debug 2>/dev/null | grep -Eo '\-D[[:alnum:]_=*]*' | sed -e 's/-D//' | sed -e 's/[[:alnum:]_=*]*/\"&\"/' > comedia_defines.txt
     ";
-    # VAR_DEFINE=`cat ./product/chal_defines.txt ./product/comedia_defines.txt | sort | uniq | sed -e '1s/^//;$!s/$/,/;$s/$//'`;
-    # SETTINGS_JSON='
-    # {
-    #     "files.exclude": {
-    #         "./build/*": true,
-    #         "**/.build*": true,
-    #         "**/.cache": true,
-    #         ".cache/*": true,
-    #         "**/.clang-format": true,
-    #         "**/.fontconfig": true,
-    #         "**/build/product/output*": true,
-    #         "**/buildroot": true,
-    #         "**/product/comedia/*": true,
-    #         "**/product/output*": true,
-    #         "**/product/output*/.wine": true,
-    #         "**/product/SOC": true,
-    #         "**/releasepack": true,
-    #         "build.log": true,
-    #         ".config": true,
-    #         ".subversion": true,
-    #         "**/logovi/*": true,
-    #         "**/.local": true,
-    #         ".vscode": true,
-    #         ".bash_history": true,
-    #         "**/.java": true,
-    #         "**/tools": true,
-    #         "**/.ccache/*": true,
-    #         "**/build/*": true,
-    #         "**/.buildroot-ccache/*": true
-    #     },
-    #     "files.associations": {
-    #         "system_error": "c"
-    #     },
-    #     "search.exclude": {
-    #         "**/product/output_*/.wine": true,
-    #         "**/product/output*/": true,
-    #         "**/.git": true,
-    #         "**/.ccache": true,
-    #         "**/.config": true,
-    #         "**/product/output_*": true,
-    #         "./build/*": true,
-    #         "**/build/*": true,
-    #     },
-    #     "C_Cpp.default.defines": [
-    #         '$VAR_DEFINE'
-    #     ]
-    # }
-    # ';
-    # if [ -d $(pwd)/.vscode ]; then
-    #     echo "Postoji: $(pwd)/.vscode ";
-    #     echo $SETTINGS_JSON > $(pwd)/.vscode/settings.json;
-    # else
-    #     echo "Kreiraj: $(pwd)/.vscode ";
-    #     mkdir -p $(pwd)/.vscode;
-    #     echo $SETTINGS_JSON > $(pwd)/.vscode/settings.json;
-    # fi
+    VAR_DEFINE=`cat ./product/chal_defines.txt ./product/comedia_defines.txt | sort | uniq | sed -e '1s/^//;$!s/$/,/;$s/$//'`;
+    SETTINGS_JSON='
+    {
+        "files.exclude": {
+            "./build/*": true,
+            "**/.build*": true,
+            "**/.cache": true,
+            ".cache/*": true,
+            "**/.clang-format": true,
+            "**/.fontconfig": true,
+            "**/build/product/output*": true,
+            "**/buildroot": true,
+            "**/product/comedia/*": true,
+            "**/product/output*": true,
+            "**/product/output*/.wine": true,
+            "**/product/SOC": true,
+            "**/releasepack": true,
+            "build.log": true,
+            ".config": true,
+            ".subversion": true,
+            "**/logovi/*": true,
+            "**/.local": true,
+            ".vscode": true,
+            ".bash_history": true,
+            "**/.java": true,
+            "**/tools": true,
+            "**/.ccache/*": true,
+            "**/build/*": true,
+            "**/.buildroot-ccache/*": true
+        },
+        "files.associations": {
+            "system_error": "c"
+        },
+        "search.exclude": {
+            "**/product/output_*/.wine": true,
+            "**/product/output*/": true,
+            "**/.git": true,
+            "**/.ccache": true,
+            "**/.config": true,
+            "**/product/output_*": true,
+            "./build/*": true,
+            "**/build/*": true,
+        },
+        "C_Cpp.default.defines": [
+            '$VAR_DEFINE'
+        ]
+    }
+    ';
+    if [ -d $(pwd)/.vscode ]; then
+        echo "Postoji: $(pwd)/.vscode ";
+        echo $SETTINGS_JSON > $(pwd)/.vscode/settings.json;
+    else
+        echo "Kreiraj: $(pwd)/.vscode ";
+        mkdir -p $(pwd)/.vscode;
+        echo $SETTINGS_JSON > $(pwd)/.vscode/settings.json;
+    fi
 
 }
 
