@@ -347,12 +347,12 @@ sve_bilduj_debug ()
     cp -r product/platform/ali/config/$CONF/${CONF}_buildroot_skeleton/root/* product/output_$CONF/buildroot_shadow/target/root/
     docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c """
     cd ~/product && . teatro3.sh $CONF && \
-    chal_build_debug 2>&1 | tee ~/product/output_$CONF/chal_build_debug.log && \
-    comedia_build_debug 2>&1 | tee ~/product/output_$CONF/comedia_build_debug.log && \
-    app_build_debug 2>&1 | tee ~/product/output_$CONF/app_build_debug.log && \
-    chalcak_build_debug 2>&1 | tee ~/product/output_$CONF/chalcak_build_debug.log && \
-    secure_app_build_debug 2>&1 | tee ~/product/output_$CONF/secure_app_build_debug.log && \
-    ${_PLATFORM}_build_binaries && \
+    chal_build_debug  && \
+    comedia_build_debug && \
+    app_build_debug && \
+    chalcak_build_debug && \
+    secure_app_build_debug && \
+    ali_build_binaries && \
     generate_materials
     exit"""
 }
