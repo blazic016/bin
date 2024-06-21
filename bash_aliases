@@ -323,6 +323,7 @@ comedia_bilduj_bis ()
 }
 
 # sdtvddriver_shadow
+#    generate_materials && \
 sve_bilduj () 
 { 
     check_conf;
@@ -336,10 +337,11 @@ sve_bilduj ()
     chalcak_build && \
     secure_app_build && \
     ${_PLATFORM}_build_binaries && \
-    generate_materials && \
+    ali_release_pack && \
     exit""" # && burnuj
 }
 
+# cd ~/product/output_$CONF/buildroot_shadow && make aui-reconfigure && make aliplatform-reconfigure && \
 sve_bilduj_debug () 
 { 
     check_conf;
@@ -352,7 +354,7 @@ sve_bilduj_debug ()
     app_build_debug && \
     chalcak_build_debug && \
     secure_app_build_debug && \
-    ali_build_binaries && \
+    ${_PLATFORM}_build_binaries && \
     generate_materials
     exit"""
 }
