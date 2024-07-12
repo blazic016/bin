@@ -12,6 +12,17 @@ alias connectserialUSB3='sudo python3 -m serial.tools.miniterm /dev/ttyUSB3 1152
 alias connectserialUSB4='sudo python3 -m serial.tools.miniterm /dev/ttyUSB4 115200 --raw'
 alias connectserialUSB5='sudo python3 -m serial.tools.miniterm /dev/ttyUSB5 115200 --raw'
 
+
+ts_fake_time() {
+    START_TIME=$(date +"%s")
+    FAKE_START_TIME=$(date -d '2024-07-11 03:50:00' +"%s")
+    local real_time=$(date +"%s")
+    local elapsed=$((real_time - START_TIME))
+    local fake_time=$((FAKE_START_TIME + elapsed))
+    date -d "@$fake_time" +"%m/%d/%Y, %H:%M:%S"
+}
+
+
 alias py=python3
 alias diff='diff --color' 
 alias beleske='code $HOME/Mega/Beleske'
