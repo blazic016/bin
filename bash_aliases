@@ -54,8 +54,8 @@ infostream()
 {
     tsp -I file $1 -P tables -p 17 --xml-output tmp_bat.xml -O drop && \
     tsp -I file $1 -P tables -p 16 --xml-output tmp_nit.xml -O drop && \
-    /home/${USER}/Mega/bin/infostream_cpp tmp_bat.xml tmp_nit.xml && \
-    rm tmp_bat.xml tmp_nit.xml
+    /home/${USER}/Mega/bin/infostream_cpp tmp_bat.xml tmp_nit.xml comedia/comedia/core/system/src/sys_mngr/sys_mngr.c
+    # rm tmp_bat.xml tmp_nit.xml
 }
 
 get_bat_nit_from_ts()
@@ -361,7 +361,7 @@ sve_bilduj ()
     chalcak_build && \
     secure_app_build && \
     ${_PLATFORM}_build_binaries && \
-    ali_release_pack && \
+    generate_materials && \
     exit""" # && burnuj
 }
 
@@ -373,6 +373,7 @@ sve_bilduj_debug ()
     cp -r product/platform/ali/config/$CONF/${CONF}_buildroot_skeleton/root/* product/output_$CONF/buildroot_shadow/target/root/
     docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c """
     cd ~/product && . teatro3.sh $CONF && \
+    cd output_$CONF/buildroot_shadow/ && make aui-rebuild && make aliplatform-rebuild && \
     chal_build_debug  && \
     comedia_build_debug && \
     app_build_debug && \
