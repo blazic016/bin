@@ -364,7 +364,10 @@ sve_bilduj ()
     generate_materials && \
     exit""" # && burnuj
 }
-
+    # cd output_$CONF/buildroot_shadow/ && make aui-rebuild && make aliplatform-rebuild && \
+    # app_build_debug && 
+    # chalcak_build_debug && \
+    # secure_app_build_debug && \
 # cd ~/product/output_$CONF/buildroot_shadow && make aui-reconfigure && make aliplatform-reconfigure && \
 sve_bilduj_debug () 
 { 
@@ -373,16 +376,27 @@ sve_bilduj_debug ()
     cp -r product/platform/ali/config/$CONF/${CONF}_buildroot_skeleton/root/* product/output_$CONF/buildroot_shadow/target/root/
     docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c """
     cd ~/product && . teatro3.sh $CONF && \
-    cd output_$CONF/buildroot_shadow/ && make aui-rebuild && make aliplatform-rebuild && \
     chal_build_debug  && \
     comedia_build_debug && \
-    app_build_debug && \
-    chalcak_build_debug && \
-    secure_app_build_debug && \
     ${_PLATFORM}_build_binaries && \
     generate_materials
     exit"""
 }
+
+
+otatool_sdtv () 
+{ 
+    check_conf;
+    docker run --rm -it -v $(pwd):/home/sdtv -e LOCAL_USER_ID=$(id -u $USER) ${DOCKER_IMAGE_CPLUS} /bin/bash -c """
+    cp ~/product/output_ali_m3538p_gz_sat_nand_SecDbg/downloader_buildtree_shadow/output.0x00000001/0x00000001_MW_GLOBALZ_P1020_120_3_v6_1_2_N.bin.zip.wrp.fake_ssv ~/OTA_Tool/ && \
+    cd /home/sdtv/OTA_Tool && \
+    rm -rvf OutputDir12345/ && \
+    ./dvb-ssu-generator-cli <params && \
+    mv /home/sdtv/OTA_Tool/OutputDir12345/00000002.sec ~/GLZDSB4302.sec  && \
+    exit"""
+}
+
+
 
 comedia_build_cpp_defines () 
 { 
